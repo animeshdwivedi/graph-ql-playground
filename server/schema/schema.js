@@ -8,8 +8,8 @@ const books = [{name: 'Book 1', id : '1'},{name: 'Book 2', id : '2'},{name: 'Boo
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
-        id: {type: GraphQLString},
         name: {type: GraphQLString},
+        id: {type: GraphQLString},        
     })
 });
 
@@ -21,7 +21,8 @@ const RootQuery =  new GraphQLObjectType({
             args: {id: {type: GraphQLString}},
             resolve(parent, args) {       
                 //code to get data from database/datasource         
-                _.find(books,{id: args.id})
+                return _.find(books,{id: args.id})
+                
             }
         }
     }
