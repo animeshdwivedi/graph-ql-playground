@@ -5,6 +5,7 @@ const {
     GraphQLString, // Equivalent of String
     GraphQLSchema, // Creating Schema for GraphQL
     GraphQLID, //an ID of type VAR, that allows us to have both String or Numeric
+    GraphQLList //This is to make a list type Graph list.
 } = graphql;
 
 //Dummy data
@@ -27,6 +28,7 @@ const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
         name: {type: GraphQLString},
+        genre: {type: GraphQLString},    
         id: {type: GraphQLID},
         author: {
             type: AuthorType,
@@ -42,7 +44,14 @@ const AuthorType = new GraphQLObjectType({
     name: 'Author', 
     fields: () => ({
         name: {type: GraphQLString},
+        age: {type: GraphQLString},        
         id: {type: GraphQLID},        
+        book: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args) {
+                return _.filter(books, {authorId: parent.id})
+            }
+        }        
     })
 });
 
@@ -64,7 +73,19 @@ const RootQuery =  new GraphQLObjectType({
             resolve(parent, args) {
                 return _.find(authors, {id: args.id})
             }
-        }
+        },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args) {
+                return books;
+            }
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            resolve(parent, args) {
+                return authors;
+            }
+        }        
     }
 });
 
