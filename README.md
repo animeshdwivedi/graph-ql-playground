@@ -9,6 +9,7 @@ This is a GraphQL and React Playground.
     node app: Just run the server.    
 # Local Environment:     
     [http://localhost:4000/graphql]
-    
+# Queries:
+    [All queries are listed in schema.js]
 
 #React App in progress
